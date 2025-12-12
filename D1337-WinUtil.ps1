@@ -194,11 +194,9 @@ $AppDatabase = @{
     "Playnite" = "Playnite.Playnite"
     "Heroic Launcher" = "HeroicGamesLauncher.HeroicGamesLauncher"
     "Prism Launcher" = "PrismLauncher.PrismLauncher"
-    "Discord" = "Discord.Discord"
     "GeForce Experience" = "Nvidia.GeForceExperience"
 
     # Microsoft Tools
-    "PowerToys" = "Microsoft.PowerToys"
     ".NET 6 Runtime" = "Microsoft.DotNet.DesktopRuntime.6"
     ".NET 7 Runtime" = "Microsoft.DotNet.DesktopRuntime.7"
     ".NET 8 Runtime" = "Microsoft.DotNet.DesktopRuntime.8"
