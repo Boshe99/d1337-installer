@@ -87,6 +87,47 @@ Add-Type -AssemblyName System.Windows.Forms
         <!-- Main Content -->
         <TabControl Grid.Row="1" Background="#0a0a0a" BorderBrush="#00ff00" Margin="10">
 
+            <!-- Tab 0: Fresh RDP -->
+            <TabItem Header=" FRESH RDP " Background="#003300">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="20">
+                        <TextBlock Text="[FRESH RDP/VPS SETUP]" FontSize="16" FontWeight="Bold" Margin="0,0,0,10"/>
+                        <TextBlock Text="One-click setup untuk RDP/VPS baru!" FontSize="12" Foreground="#888888" Margin="0,0,0,20"/>
+
+                        <TextBlock Text="PRESET PACKAGES:" FontWeight="Bold" Foreground="#ffff00" Margin="0,10,0,10"/>
+
+                        <Button x:Name="btnFullHacker" Content="[FULL HACKER SETUP] - Install Everything" Width="350" Height="40" Margin="0,5,0,5"/>
+                        <TextBlock Text="Python, Git, VS Code, Nmap, Wireshark, Burp, Terminal, Firefox, 7zip, dll" FontSize="10" Foreground="#666666" HorizontalAlignment="Center"/>
+
+                        <Button x:Name="btnDevSetup" Content="[DEV SETUP] - Development Tools Only" Width="350" Height="40" Margin="0,15,0,5"/>
+                        <TextBlock Text="Python, Git, VS Code, Node.js, Go, Terminal, PowerShell 7" FontSize="10" Foreground="#666666" HorizontalAlignment="Center"/>
+
+                        <Button x:Name="btnSecuritySetup" Content="[SECURITY SETUP] - Pentesting Tools" Width="350" Height="40" Margin="0,15,0,5"/>
+                        <TextBlock Text="Nmap, Wireshark, Burp Suite, PuTTY, WinSCP, Tor Browser" FontSize="10" Foreground="#666666" HorizontalAlignment="Center"/>
+
+                        <Button x:Name="btnMinimalSetup" Content="[MINIMAL SETUP] - Basic Essentials" Width="350" Height="40" Margin="0,15,0,5"/>
+                        <TextBlock Text="Python, Git, 7zip, Notepad++, Terminal" FontSize="10" Foreground="#666666" HorizontalAlignment="Center"/>
+
+                        <Border BorderBrush="#333333" BorderThickness="1" Margin="0,30,0,0" Padding="15">
+                            <StackPanel>
+                                <TextBlock Text="BONUS OPTIMIZATIONS:" FontWeight="Bold" Foreground="#ff6600" Margin="0,0,0,10"/>
+                                <CheckBox x:Name="chkAutoDebloat" Content="Auto Debloat (Remove bloatware)" IsChecked="True"/>
+                                <CheckBox x:Name="chkAutoPrivacy" Content="Auto Privacy (Disable telemetry)" IsChecked="True"/>
+                                <CheckBox x:Name="chkAutoPerformance" Content="Auto Performance (Optimize system)" IsChecked="True"/>
+                                <CheckBox x:Name="chkInstallChoco" Content="Install Chocolatey Package Manager"/>
+                                <CheckBox x:Name="chkInstallScoop" Content="Install Scoop Package Manager"/>
+                            </StackPanel>
+                        </Border>
+
+                        <TextBlock Text="Python Packages (pip install):" FontWeight="Bold" Margin="0,20,0,5"/>
+                        <CheckBox x:Name="chkPipRequests" Content="requests, httpx, aiohttp"/>
+                        <CheckBox x:Name="chkPipHacking" Content="pwntools, impacket, paramiko"/>
+                        <CheckBox x:Name="chkPipScraping" Content="beautifulsoup4, selenium, scrapy"/>
+
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
             <!-- Tab 1: Debloat -->
             <TabItem Header=" DEBLOAT ">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
@@ -283,6 +324,20 @@ $btnPrivacy = $Window.FindName("btnPrivacy")
 $btnPerformance = $Window.FindName("btnPerformance")
 $txtStatus = $Window.FindName("txtStatus")
 
+# Fresh RDP Controls
+$btnFullHacker = $Window.FindName("btnFullHacker")
+$btnDevSetup = $Window.FindName("btnDevSetup")
+$btnSecuritySetup = $Window.FindName("btnSecuritySetup")
+$btnMinimalSetup = $Window.FindName("btnMinimalSetup")
+$chkAutoDebloat = $Window.FindName("chkAutoDebloat")
+$chkAutoPrivacy = $Window.FindName("chkAutoPrivacy")
+$chkAutoPerformance = $Window.FindName("chkAutoPerformance")
+$chkInstallChoco = $Window.FindName("chkInstallChoco")
+$chkInstallScoop = $Window.FindName("chkInstallScoop")
+$chkPipRequests = $Window.FindName("chkPipRequests")
+$chkPipHacking = $Window.FindName("chkPipHacking")
+$chkPipScraping = $Window.FindName("chkPipScraping")
+
 # ==================== FUNCTIONS ====================
 
 function Update-Status {
@@ -431,6 +486,184 @@ $btnPerformance.Add_Click({
 
     Update-Status "Performance tweaks applied!"
     [System.Windows.MessageBox]::Show("Performance tweaks applied! Restart recommended.", "D1337 WinUtil", "OK", "Information")
+})
+
+# ==================== FRESH RDP FUNCTIONS ====================
+
+function Install-Winget {
+    $winget = Get-Command winget -ErrorAction SilentlyContinue
+    if (-not $winget) {
+        Update-Status "Installing winget..."
+        $progressPreference = 'silentlyContinue'
+        Invoke-WebRequest -Uri "https://aka.ms/getwinget" -OutFile "$env:TEMP\winget.msixbundle"
+        Add-AppxPackage -Path "$env:TEMP\winget.msixbundle"
+    }
+}
+
+function Install-ToolsFromList {
+    param([string[]]$Tools)
+    Install-Winget
+    foreach ($tool in $Tools) {
+        Update-Status "Installing $tool..."
+        Start-Process winget -ArgumentList "install --id $tool --accept-source-agreements --accept-package-agreements -h" -Wait -NoNewWindow
+    }
+}
+
+function Install-Chocolatey {
+    Update-Status "Installing Chocolatey..."
+    Set-ExecutionPolicy Bypass -Scope Process -Force
+    [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
+    Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+}
+
+function Install-Scoop {
+    Update-Status "Installing Scoop..."
+    Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
+    Invoke-RestMethod get.scoop.sh | Invoke-Expression
+}
+
+function Install-PipPackages {
+    param([string[]]$Packages)
+    foreach ($pkg in $Packages) {
+        Update-Status "pip install $pkg..."
+        Start-Process python -ArgumentList "-m pip install $pkg" -Wait -NoNewWindow
+    }
+}
+
+function Apply-AutoOptimizations {
+    if ($chkAutoDebloat.IsChecked) {
+        Update-Status "Auto Debloat..."
+        $bloatApps = @("Microsoft.549981C3F5F10", "Microsoft.XboxApp", "Microsoft.BingWeather", "Microsoft.BingNews", "Microsoft.WindowsFeedbackHub", "Microsoft.MixedReality.Portal")
+        foreach ($app in $bloatApps) {
+            Get-AppxPackage -Name $app -AllUsers | Remove-AppxPackage -AllUsers -ErrorAction SilentlyContinue
+        }
+    }
+    if ($chkAutoPrivacy.IsChecked) {
+        Update-Status "Auto Privacy..."
+        Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection" -Name "AllowTelemetry" -Value 0 -Force -ErrorAction SilentlyContinue
+        Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\AdvertisingInfo" -Name "Enabled" -Value 0 -Force -ErrorAction SilentlyContinue
+    }
+    if ($chkAutoPerformance.IsChecked) {
+        Update-Status "Auto Performance..."
+        powercfg -duplicatescheme e9a42b02-d5df-448d-aa00-03f14749eb61 2>$null
+        Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects" -Name "VisualFXSetting" -Value 2 -Force -ErrorAction SilentlyContinue
+    }
+    if ($chkInstallChoco.IsChecked) { Install-Chocolatey }
+    if ($chkInstallScoop.IsChecked) { Install-Scoop }
+}
+
+function Install-PipSelectedPackages {
+    $pipPkgs = @()
+    if ($chkPipRequests.IsChecked) { $pipPkgs += @("requests", "httpx", "aiohttp") }
+    if ($chkPipHacking.IsChecked) { $pipPkgs += @("pwntools", "impacket", "paramiko") }
+    if ($chkPipScraping.IsChecked) { $pipPkgs += @("beautifulsoup4", "selenium", "scrapy") }
+    if ($pipPkgs.Count -gt 0) {
+        Install-PipPackages -Packages $pipPkgs
+    }
+}
+
+# Full Hacker Setup
+$btnFullHacker.Add_Click({
+    $result = [System.Windows.MessageBox]::Show("Install FULL HACKER SETUP?`n`nThis will install:`n- Python, Git, VS Code, Node.js, Go`n- Nmap, Wireshark, Burp Suite`n- 7zip, Notepad++, Terminal`n- Firefox, Brave`n`nContinue?", "D1337 WinUtil", "YesNo", "Question")
+    if ($result -eq "Yes") {
+        Update-Status "Starting Full Hacker Setup..."
+        Apply-AutoOptimizations
+
+        $tools = @(
+            "Python.Python.3.11",
+            "Git.Git",
+            "Microsoft.VisualStudioCode",
+            "OpenJS.NodeJS.LTS",
+            "GoLang.Go",
+            "Insecure.Nmap",
+            "WiresharkFoundation.Wireshark",
+            "PortSwigger.BurpSuite.Community",
+            "PuTTY.PuTTY",
+            "WinSCP.WinSCP",
+            "7zip.7zip",
+            "Notepad++.Notepad++",
+            "Microsoft.WindowsTerminal",
+            "Microsoft.PowerShell",
+            "Mozilla.Firefox",
+            "Brave.Brave"
+        )
+        Install-ToolsFromList -Tools $tools
+        Install-PipSelectedPackages
+
+        Update-Status "Full Hacker Setup Complete!"
+        [System.Windows.MessageBox]::Show("Full Hacker Setup completed!`nRestart recommended.", "D1337 WinUtil", "OK", "Information")
+    }
+})
+
+# Dev Setup
+$btnDevSetup.Add_Click({
+    $result = [System.Windows.MessageBox]::Show("Install DEV SETUP?`n`nThis will install:`n- Python, Git, VS Code`n- Node.js, Go`n- Terminal, PowerShell 7`n`nContinue?", "D1337 WinUtil", "YesNo", "Question")
+    if ($result -eq "Yes") {
+        Update-Status "Starting Dev Setup..."
+        Apply-AutoOptimizations
+
+        $tools = @(
+            "Python.Python.3.11",
+            "Git.Git",
+            "Microsoft.VisualStudioCode",
+            "OpenJS.NodeJS.LTS",
+            "GoLang.Go",
+            "Microsoft.WindowsTerminal",
+            "Microsoft.PowerShell"
+        )
+        Install-ToolsFromList -Tools $tools
+        Install-PipSelectedPackages
+
+        Update-Status "Dev Setup Complete!"
+        [System.Windows.MessageBox]::Show("Dev Setup completed!", "D1337 WinUtil", "OK", "Information")
+    }
+})
+
+# Security Setup
+$btnSecuritySetup.Add_Click({
+    $result = [System.Windows.MessageBox]::Show("Install SECURITY SETUP?`n`nThis will install:`n- Nmap, Wireshark`n- Burp Suite, PuTTY, WinSCP`n- Tor Browser`n`nContinue?", "D1337 WinUtil", "YesNo", "Question")
+    if ($result -eq "Yes") {
+        Update-Status "Starting Security Setup..."
+        Apply-AutoOptimizations
+
+        $tools = @(
+            "Python.Python.3.11",
+            "Git.Git",
+            "Insecure.Nmap",
+            "WiresharkFoundation.Wireshark",
+            "PortSwigger.BurpSuite.Community",
+            "PuTTY.PuTTY",
+            "WinSCP.WinSCP",
+            "TorProject.TorBrowser"
+        )
+        Install-ToolsFromList -Tools $tools
+        Install-PipSelectedPackages
+
+        Update-Status "Security Setup Complete!"
+        [System.Windows.MessageBox]::Show("Security Setup completed!", "D1337 WinUtil", "OK", "Information")
+    }
+})
+
+# Minimal Setup
+$btnMinimalSetup.Add_Click({
+    $result = [System.Windows.MessageBox]::Show("Install MINIMAL SETUP?`n`nThis will install:`n- Python, Git`n- 7zip, Notepad++`n- Terminal`n`nContinue?", "D1337 WinUtil", "YesNo", "Question")
+    if ($result -eq "Yes") {
+        Update-Status "Starting Minimal Setup..."
+        Apply-AutoOptimizations
+
+        $tools = @(
+            "Python.Python.3.11",
+            "Git.Git",
+            "7zip.7zip",
+            "Notepad++.Notepad++",
+            "Microsoft.WindowsTerminal"
+        )
+        Install-ToolsFromList -Tools $tools
+        Install-PipSelectedPackages
+
+        Update-Status "Minimal Setup Complete!"
+        [System.Windows.MessageBox]::Show("Minimal Setup completed!", "D1337 WinUtil", "OK", "Information")
+    }
 })
 
 # Show Window
