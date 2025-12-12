@@ -690,6 +690,19 @@ $AppDatabase = @{
                             </WrapPanel>
                         </GroupBox>
 
+                        <GroupBox Header="NETWORK TOOLS" Margin="0,10,0,0">
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,5,0,5">
+                                    <TextBlock Text="Domain/IP:" VerticalAlignment="Center" Width="70"/>
+                                    <TextBox x:Name="txtLookupInput" Width="250" Background="#1a1a1a" Foreground="#00ff00" BorderBrush="#00ff00" Padding="5"/>
+                                    <Button x:Name="btnDomainToIP" Content="[DOMAIN→IP]" Width="110" Margin="5,0,0,0"/>
+                                    <Button x:Name="btnIPToDomain" Content="[IP→DOMAIN]" Width="110" Margin="5,0,0,0"/>
+                                    <Button x:Name="btnWhois" Content="[WHOIS]" Width="80" Margin="5,0,0,0"/>
+                                </StackPanel>
+                                <TextBox x:Name="txtLookupResult" Height="80" Background="#1a1a1a" Foreground="#00ff00" BorderBrush="#333333" IsReadOnly="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" Padding="5" FontFamily="Consolas" FontSize="11"/>
+                            </StackPanel>
+                        </GroupBox>
+
                         <GroupBox Header="USEFUL SHORTCUTS" Margin="0,10,0,0">
                             <WrapPanel>
                                 <Button x:Name="btnDevMgr" Content="[DEVICE MANAGER]" Width="145"/>
@@ -1338,6 +1351,61 @@ $Window.FindName("btnResetWinsock").Add_Click({
 $Window.FindName("btnClearIconCache").Add_Click({
     ie4uinit.exe -show
     [System.Windows.MessageBox]::Show("Icon cache cleared!", "D1337 WinUtil", "OK", "Information")
+})
+
+# Config Tab - Network Tools
+$txtLookupInput = $Window.FindName("txtLookupInput")
+$txtLookupResult = $Window.FindName("txtLookupResult")
+
+$Window.FindName("btnDomainToIP").Add_Click({
+    $input = $txtLookupInput.Text.Trim()
+    if ([string]::IsNullOrEmpty($input)) {
+        $txtLookupResult.Text = "Enter a domain name!"
+        return
+    }
+    try {
+        Update-Status "Resolving $input..."
+        $result = [System.Net.Dns]::GetHostAddresses($input)
+        $ips = ($result | ForEach-Object { $_.IPAddressToString }) -join "`n"
+        $txtLookupResult.Text = "Domain: $input`nIP Address(es):`n$ips"
+        Update-Status "DNS lookup complete"
+    } catch {
+        $txtLookupResult.Text = "Error: Could not resolve $input"
+        Update-Status "DNS lookup failed"
+    }
+})
+
+$Window.FindName("btnIPToDomain").Add_Click({
+    $input = $txtLookupInput.Text.Trim()
+    if ([string]::IsNullOrEmpty($input)) {
+        $txtLookupResult.Text = "Enter an IP address!"
+        return
+    }
+    try {
+        Update-Status "Reverse lookup $input..."
+        $result = [System.Net.Dns]::GetHostEntry($input)
+        $txtLookupResult.Text = "IP: $input`nHostname: $($result.HostName)`nAliases: $(($result.Aliases) -join ', ')"
+        Update-Status "Reverse lookup complete"
+    } catch {
+        $txtLookupResult.Text = "Error: Could not resolve $input"
+        Update-Status "Reverse lookup failed"
+    }
+})
+
+$Window.FindName("btnWhois").Add_Click({
+    $input = $txtLookupInput.Text.Trim()
+    if ([string]::IsNullOrEmpty($input)) {
+        $txtLookupResult.Text = "Enter a domain or IP!"
+        return
+    }
+    try {
+        Update-Status "WHOIS lookup $input..."
+        $txtLookupResult.Text = "Opening WHOIS for: $input"
+        Start-Process "https://who.is/whois/$input"
+        Update-Status "WHOIS opened in browser"
+    } catch {
+        $txtLookupResult.Text = "Error opening WHOIS"
+    }
 })
 
 # Config Tab - Shortcuts
