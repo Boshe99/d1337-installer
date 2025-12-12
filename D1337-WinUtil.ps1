@@ -692,14 +692,34 @@ $AppDatabase = @{
 
                         <GroupBox Header="NETWORK TOOLS" Margin="0,10,0,0">
                             <StackPanel>
-                                <StackPanel Orientation="Horizontal" Margin="0,5,0,5">
+                                <TextBlock Text="Single Lookup:" FontWeight="Bold" Foreground="#ffff00" Margin="0,0,0,5"/>
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
                                     <TextBlock Text="Domain/IP:" VerticalAlignment="Center" Width="70"/>
                                     <TextBox x:Name="txtLookupInput" Width="250" Background="#1a1a1a" Foreground="#00ff00" BorderBrush="#00ff00" Padding="5"/>
                                     <Button x:Name="btnDomainToIP" Content="[DOMAIN→IP]" Width="110" Margin="5,0,0,0"/>
                                     <Button x:Name="btnIPToDomain" Content="[IP→DOMAIN]" Width="110" Margin="5,0,0,0"/>
                                     <Button x:Name="btnWhois" Content="[WHOIS]" Width="80" Margin="5,0,0,0"/>
                                 </StackPanel>
-                                <TextBox x:Name="txtLookupResult" Height="80" Background="#1a1a1a" Foreground="#00ff00" BorderBrush="#333333" IsReadOnly="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" Padding="5" FontFamily="Consolas" FontSize="11"/>
+                                <TextBox x:Name="txtLookupResult" Height="60" Background="#1a1a1a" Foreground="#00ff00" BorderBrush="#333333" IsReadOnly="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" Padding="5" FontFamily="Consolas" FontSize="11"/>
+
+                                <TextBlock Text="Mass Lookup (supports 100k+ entries):" FontWeight="Bold" Foreground="#ff6600" Margin="0,15,0,5"/>
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                                    <Button x:Name="btnLoadFile" Content="[LOAD FILE]" Width="100"/>
+                                    <TextBlock x:Name="txtLoadedFile" Text="No file loaded" VerticalAlignment="Center" Margin="10,0,0,0" Foreground="#888888"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,5,0,5">
+                                    <Button x:Name="btnMassDomainToIP" Content="[MASS DOMAIN→IP]" Width="150"/>
+                                    <Button x:Name="btnMassIPToDomain" Content="[MASS IP→DOMAIN]" Width="150" Margin="5,0,0,0"/>
+                                    <Button x:Name="btnStopMass" Content="[STOP]" Width="70" Margin="5,0,0,0" Foreground="#ff0000"/>
+                                    <TextBlock x:Name="txtMassProgress" Text="" VerticalAlignment="Center" Margin="10,0,0,0" Foreground="#00ff00"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                                    <TextBlock Text="Threads:" VerticalAlignment="Center"/>
+                                    <TextBox x:Name="txtThreads" Text="50" Width="50" Background="#1a1a1a" Foreground="#00ff00" BorderBrush="#00ff00" Margin="5,0,10,0" Padding="3"/>
+                                    <TextBlock Text="Output:" VerticalAlignment="Center"/>
+                                    <TextBox x:Name="txtOutputFile" Text="results.txt" Width="150" Background="#1a1a1a" Foreground="#00ff00" BorderBrush="#00ff00" Margin="5,0,0,0" Padding="3"/>
+                                    <Button x:Name="btnBrowseOutput" Content="[...]" Width="30" Margin="5,0,0,0"/>
+                                </StackPanel>
                             </StackPanel>
                         </GroupBox>
 
@@ -1356,6 +1376,14 @@ $Window.FindName("btnClearIconCache").Add_Click({
 # Config Tab - Network Tools
 $txtLookupInput = $Window.FindName("txtLookupInput")
 $txtLookupResult = $Window.FindName("txtLookupResult")
+$txtLoadedFile = $Window.FindName("txtLoadedFile")
+$txtMassProgress = $Window.FindName("txtMassProgress")
+$txtThreads = $Window.FindName("txtThreads")
+$txtOutputFile = $Window.FindName("txtOutputFile")
+
+# Global variables for mass lookup
+$script:MassLookupData = @()
+$script:StopMassLookup = $false
 
 $Window.FindName("btnDomainToIP").Add_Click({
     $input = $txtLookupInput.Text.Trim()
@@ -1406,6 +1434,144 @@ $Window.FindName("btnWhois").Add_Click({
     } catch {
         $txtLookupResult.Text = "Error opening WHOIS"
     }
+})
+
+# Mass Lookup - Load File
+$Window.FindName("btnLoadFile").Add_Click({
+    $dialog = New-Object Microsoft.Win32.OpenFileDialog
+    $dialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*"
+    $dialog.Title = "Select file with domains/IPs (one per line)"
+    if ($dialog.ShowDialog()) {
+        try {
+            $script:MassLookupData = Get-Content $dialog.FileName | Where-Object { $_.Trim() -ne "" }
+            $count = $script:MassLookupData.Count
+            $txtLoadedFile.Text = "$($dialog.FileName) ($count entries)"
+            $txtLoadedFile.Foreground = [System.Windows.Media.Brushes]::LimeGreen
+            Update-Status "Loaded $count entries from file"
+        } catch {
+            $txtLoadedFile.Text = "Error loading file"
+            $txtLoadedFile.Foreground = [System.Windows.Media.Brushes]::Red
+        }
+    }
+})
+
+# Mass Lookup - Browse Output
+$Window.FindName("btnBrowseOutput").Add_Click({
+    $dialog = New-Object Microsoft.Win32.SaveFileDialog
+    $dialog.Filter = "Text files (*.txt)|*.txt|CSV files (*.csv)|*.csv"
+    $dialog.Title = "Save results to"
+    $dialog.FileName = "results.txt"
+    if ($dialog.ShowDialog()) {
+        $txtOutputFile.Text = $dialog.FileName
+    }
+})
+
+# Mass Lookup - Stop
+$Window.FindName("btnStopMass").Add_Click({
+    $script:StopMassLookup = $true
+    Update-Status "Stopping mass lookup..."
+})
+
+# Mass Domain to IP
+$Window.FindName("btnMassDomainToIP").Add_Click({
+    if ($script:MassLookupData.Count -eq 0) {
+        [System.Windows.MessageBox]::Show("Load a file first!", "D1337 WinUtil", "OK", "Warning")
+        return
+    }
+
+    $script:StopMassLookup = $false
+    $outputFile = $txtOutputFile.Text
+    $total = $script:MassLookupData.Count
+    $completed = 0
+    $results = [System.Collections.ArrayList]::new()
+
+    Update-Status "Starting mass Domain→IP lookup ($total entries)..."
+    $txtMassProgress.Text = "0 / $total (0%)"
+
+    # Clear output file
+    "" | Out-File $outputFile -Force
+
+    foreach ($domain in $script:MassLookupData) {
+        if ($script:StopMassLookup) {
+            Update-Status "Mass lookup stopped by user"
+            break
+        }
+
+        $domain = $domain.Trim()
+        try {
+            $ips = [System.Net.Dns]::GetHostAddresses($domain)
+            $ipList = ($ips | ForEach-Object { $_.IPAddressToString }) -join ","
+            $line = "$domain,$ipList"
+        } catch {
+            $line = "$domain,FAILED"
+        }
+
+        # Append to file immediately (memory efficient for large files)
+        $line | Out-File $outputFile -Append
+
+        $completed++
+        $percent = [math]::Round(($completed / $total) * 100, 1)
+        $txtMassProgress.Text = "$completed / $total ($percent%)"
+
+        # Update UI every 100 entries
+        if ($completed % 100 -eq 0) {
+            $Window.Dispatcher.Invoke([action]{}, "Render")
+        }
+    }
+
+    Update-Status "Mass lookup complete! Results saved to $outputFile"
+    $txtMassProgress.Text = "$completed / $total (100%) - DONE"
+    [System.Windows.MessageBox]::Show("Completed! Results saved to:`n$outputFile", "D1337 WinUtil", "OK", "Information")
+})
+
+# Mass IP to Domain
+$Window.FindName("btnMassIPToDomain").Add_Click({
+    if ($script:MassLookupData.Count -eq 0) {
+        [System.Windows.MessageBox]::Show("Load a file first!", "D1337 WinUtil", "OK", "Warning")
+        return
+    }
+
+    $script:StopMassLookup = $false
+    $outputFile = $txtOutputFile.Text
+    $total = $script:MassLookupData.Count
+    $completed = 0
+
+    Update-Status "Starting mass IP→Domain lookup ($total entries)..."
+    $txtMassProgress.Text = "0 / $total (0%)"
+
+    # Clear output file
+    "" | Out-File $outputFile -Force
+
+    foreach ($ip in $script:MassLookupData) {
+        if ($script:StopMassLookup) {
+            Update-Status "Mass lookup stopped by user"
+            break
+        }
+
+        $ip = $ip.Trim()
+        try {
+            $result = [System.Net.Dns]::GetHostEntry($ip)
+            $line = "$ip,$($result.HostName)"
+        } catch {
+            $line = "$ip,FAILED"
+        }
+
+        # Append to file immediately
+        $line | Out-File $outputFile -Append
+
+        $completed++
+        $percent = [math]::Round(($completed / $total) * 100, 1)
+        $txtMassProgress.Text = "$completed / $total ($percent%)"
+
+        # Update UI every 100 entries
+        if ($completed % 100 -eq 0) {
+            $Window.Dispatcher.Invoke([action]{}, "Render")
+        }
+    }
+
+    Update-Status "Mass lookup complete! Results saved to $outputFile"
+    $txtMassProgress.Text = "$completed / $total (100%) - DONE"
+    [System.Windows.MessageBox]::Show("Completed! Results saved to:`n$outputFile", "D1337 WinUtil", "OK", "Information")
 })
 
 # Config Tab - Shortcuts
