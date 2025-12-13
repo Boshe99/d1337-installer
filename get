@@ -749,7 +749,107 @@ $AppDatabase = @{
                 </ScrollViewer>
             </TabItem>
 
-            <!-- Tab 7: About -->
+            <!-- Tab 7: RDP Privacy Shield -->
+            <TabItem Header=" RDP PRIVACY " Background="#330000">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="20">
+                        <TextBlock Text="🛡️ RDP PRIVACY SHIELD" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" Foreground="#ff0000"/>
+                        <TextBlock Text="Ultimate privacy protection for RDP users" FontSize="11" HorizontalAlignment="Center" Foreground="#888888" Margin="0,5,0,20"/>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Left Column -->
+                            <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                                <!-- Quick Actions -->
+                                <GroupBox Header=" QUICK ACTIONS " Margin="0,0,0,15">
+                                    <StackPanel Margin="10">
+                                        <Button x:Name="btnFullPrivacy" Content="[🔥 FULL PRIVACY SHIELD]" Height="45" Margin="0,0,0,10" FontWeight="Bold" Foreground="#ff0000"/>
+                                        <TextBlock Text="Run all privacy protections at once" FontSize="10" Foreground="#888888" TextAlignment="Center" Margin="0,0,0,10"/>
+                                        <Button x:Name="btnQuickClean" Content="[⚡ QUICK CLEAN]" Height="35" Margin="0,0,0,5"/>
+                                        <Button x:Name="btnCleanNow" Content="[🧹 CLEAN ALL LOGS]" Height="35"/>
+                                    </StackPanel>
+                                </GroupBox>
+
+                                <!-- Monitoring Detection -->
+                                <GroupBox Header=" MONITORING DETECTION " Margin="0,0,0,15">
+                                    <StackPanel Margin="10">
+                                        <Button x:Name="btnScanMonitoring" Content="[🔍 SCAN FOR SPYWARE]" Height="35" Margin="0,0,0,5"/>
+                                        <Button x:Name="btnKillSuspicious" Content="[☠️ KILL SUSPICIOUS PROCESSES]" Height="35" Margin="0,0,0,5"/>
+                                        <Button x:Name="btnScanStartup" Content="[📋 SCAN STARTUP ITEMS]" Height="35"/>
+                                    </StackPanel>
+                                </GroupBox>
+
+                                <!-- Log Cleaner -->
+                                <GroupBox Header=" LOG CLEANER ">
+                                    <StackPanel Margin="10">
+                                        <CheckBox x:Name="chkEventLogs" Content="Windows Event Logs" IsChecked="True" Margin="0,0,0,5"/>
+                                        <CheckBox x:Name="chkRDPCache" Content="RDP Cache &amp; History" IsChecked="True" Margin="0,0,0,5"/>
+                                        <CheckBox x:Name="chkBrowserData" Content="Browser Data (History, Cookies)" IsChecked="True" Margin="0,0,0,5"/>
+                                        <CheckBox x:Name="chkTempFiles" Content="Temp Files &amp; Prefetch" IsChecked="True" Margin="0,0,0,5"/>
+                                        <CheckBox x:Name="chkRecentFiles" Content="Recent Files" IsChecked="True" Margin="0,0,0,5"/>
+                                        <CheckBox x:Name="chkPSHistory" Content="PowerShell History" IsChecked="True" Margin="0,0,0,5"/>
+                                        <Button x:Name="btnCleanSelected" Content="[CLEAN SELECTED]" Height="35" Margin="0,10,0,0"/>
+                                    </StackPanel>
+                                </GroupBox>
+                            </StackPanel>
+
+                            <!-- Right Column -->
+                            <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                                <!-- Services & Tracking -->
+                                <GroupBox Header=" DISABLE TRACKING " Margin="0,0,0,15">
+                                    <StackPanel Margin="10">
+                                        <Button x:Name="btnDisableTelemetry" Content="[🚫 DISABLE TELEMETRY]" Height="35" Margin="0,0,0,5"/>
+                                        <Button x:Name="btnDisableTracking" Content="[🚫 DISABLE TRACKING SERVICES]" Height="35" Margin="0,0,0,5"/>
+                                        <Button x:Name="btnBlockTelemetryDomains" Content="[🌐 BLOCK TELEMETRY DOMAINS]" Height="35"/>
+                                    </StackPanel>
+                                </GroupBox>
+
+                                <!-- Network Privacy -->
+                                <GroupBox Header=" NETWORK PRIVACY " Margin="0,0,0,15">
+                                    <StackPanel Margin="10">
+                                        <Button x:Name="btnFlushDNSPrivacy" Content="[🔄 FLUSH DNS]" Height="35" Margin="0,0,0,5"/>
+                                        <Button x:Name="btnShowConnections" Content="[📡 SHOW ACTIVE CONNECTIONS]" Height="35" Margin="0,0,0,5"/>
+                                        <Button x:Name="btnResetNetworkPrivacy" Content="[🔧 RESET NETWORK STACK]" Height="35"/>
+                                    </StackPanel>
+                                </GroupBox>
+
+                                <!-- Auto Clean -->
+                                <GroupBox Header=" AUTO-CLEAN SETUP " Margin="0,0,0,15">
+                                    <StackPanel Margin="10">
+                                        <Button x:Name="btnSetupAutoClean" Content="[⏰ SETUP AUTO-CLEAN ON LOGOUT]" Height="35" Margin="0,0,0,5"/>
+                                        <Button x:Name="btnRemoveAutoClean" Content="[❌ REMOVE AUTO-CLEAN TASK]" Height="35" Margin="0,0,0,5"/>
+                                        <Button x:Name="btnCreateCleanShortcut" Content="[🖥️ CREATE DESKTOP SHORTCUT]" Height="35"/>
+                                    </StackPanel>
+                                </GroupBox>
+
+                                <!-- Encrypted Workspace -->
+                                <GroupBox Header=" ENCRYPTED WORKSPACE ">
+                                    <StackPanel Margin="10">
+                                        <Button x:Name="btnInstallVeraCrypt" Content="[📦 INSTALL VERACRYPT]" Height="35" Margin="0,0,0,5"/>
+                                        <Button x:Name="btnSetupEncrypted" Content="[🔐 SETUP ENCRYPTED WORKSPACE]" Height="35"/>
+                                    </StackPanel>
+                                </GroupBox>
+                            </StackPanel>
+                        </Grid>
+
+                        <!-- Status/Results Box -->
+                        <GroupBox Header=" SCAN RESULTS " Margin="0,15,0,0">
+                            <ScrollViewer Height="120" VerticalScrollBarVisibility="Auto">
+                                <TextBox x:Name="txtPrivacyResults" Background="#0a0a0a" Foreground="#00ff00"
+                                         FontFamily="Consolas" FontSize="11" IsReadOnly="True"
+                                         TextWrapping="Wrap" BorderThickness="0" Padding="10"
+                                         Text="[*] Ready - Click 'SCAN FOR SPYWARE' to begin scanning..."/>
+                            </ScrollViewer>
+                        </GroupBox>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- Tab 8: About -->
             <TabItem Header=" ABOUT ">
                 <StackPanel Margin="20" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <TextBlock Text="D1337 WinUtil" FontSize="32" FontWeight="Bold" HorizontalAlignment="Center"/>
@@ -857,6 +957,388 @@ function Remove-BloatApp {
     Update-Status "Removing $AppName..."
     Get-AppxPackage -Name "*$AppName*" -AllUsers | Remove-AppxPackage -AllUsers -ErrorAction SilentlyContinue
     Get-AppxProvisionedPackage -Online | Where-Object DisplayName -like "*$AppName*" | Remove-AppxProvisionedPackage -Online -ErrorAction SilentlyContinue
+}
+
+# ==================== RDP PRIVACY SHIELD FUNCTIONS ====================
+
+$script:PrivacyResults = $null
+
+function Update-PrivacyResults {
+    param([string]$Message)
+    if ($script:PrivacyResults) {
+        $script:PrivacyResults.Text += "`n$Message"
+        $script:PrivacyResults.ScrollToEnd()
+    }
+    $Window.Dispatcher.Invoke([action]{}, "Render")
+}
+
+function Clear-PrivacyResults {
+    if ($script:PrivacyResults) {
+        $script:PrivacyResults.Text = ""
+    }
+}
+
+function Invoke-ScanMonitoring {
+    Clear-PrivacyResults
+    Update-PrivacyResults "[*] Starting monitoring software scan..."
+    Update-Status "Scanning for monitoring software..."
+
+    $suspiciousNames = @(
+        "keylog", "spy", "monitor", "sniff", "capture", "hook",
+        "vnc", "teamviewer", "anydesk", "rustdesk", "supremo",
+        "radmin", "ammyy", "logmein", "screenconnect", "bomgar",
+        "dameware", "netop", "remotepc", "splashtop", "zoho",
+        "atera", "connectwise", "ninja", "syncro", "pulseway",
+        "realvnc", "tightvnc", "ultravnc", "tigervnc"
+    )
+
+    $foundCount = 0
+
+    # Check processes
+    Update-PrivacyResults "`n[*] Scanning running processes..."
+    $processes = Get-Process | Select-Object ProcessName, Id -ErrorAction SilentlyContinue
+    foreach ($proc in $processes) {
+        foreach ($name in $suspiciousNames) {
+            if ($proc.ProcessName -match $name) {
+                Update-PrivacyResults "[!] FOUND PROCESS: $($proc.ProcessName) (PID: $($proc.Id))"
+                $foundCount++
+            }
+        }
+    }
+
+    # Check services
+    Update-PrivacyResults "`n[*] Scanning services..."
+    $services = Get-Service -ErrorAction SilentlyContinue
+    foreach ($svc in $services) {
+        foreach ($name in $suspiciousNames) {
+            if ($svc.Name -match $name -or $svc.DisplayName -match $name) {
+                Update-PrivacyResults "[!] FOUND SERVICE: $($svc.DisplayName) [$($svc.Status)]"
+                $foundCount++
+            }
+        }
+    }
+
+    # Check installed programs
+    Update-PrivacyResults "`n[*] Scanning installed programs..."
+    $installedApps = Get-ItemProperty "HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\*",
+                                       "HKLM:\Software\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\*" -ErrorAction SilentlyContinue |
+                     Select-Object DisplayName
+    foreach ($app in $installedApps) {
+        foreach ($name in $suspiciousNames) {
+            if ($app.DisplayName -match $name) {
+                Update-PrivacyResults "[!] FOUND INSTALLED: $($app.DisplayName)"
+                $foundCount++
+            }
+        }
+    }
+
+    if ($foundCount -eq 0) {
+        Update-PrivacyResults "`n[+] No suspicious software detected!"
+    } else {
+        Update-PrivacyResults "`n[!] Found $foundCount suspicious items!"
+    }
+
+    Update-Status "Scan complete - Found $foundCount suspicious items"
+}
+
+function Invoke-KillSuspicious {
+    Update-PrivacyResults "`n[*] Killing suspicious processes..."
+    Update-Status "Killing suspicious processes..."
+
+    $toKill = @("teamviewer", "anydesk", "rustdesk", "supremo", "vnc", "radmin", "ammyy", "logmein", "bomgar", "screenconnect", "splashtop", "remotepc")
+    $killed = 0
+
+    foreach ($name in $toKill) {
+        $procs = Get-Process -Name "*$name*" -ErrorAction SilentlyContinue
+        foreach ($proc in $procs) {
+            try {
+                Stop-Process -Id $proc.Id -Force -ErrorAction Stop
+                Update-PrivacyResults "[+] Killed: $($proc.ProcessName) (PID: $($proc.Id))"
+                $killed++
+            } catch {
+                Update-PrivacyResults "[-] Cannot kill: $($proc.ProcessName)"
+            }
+        }
+    }
+
+    if ($killed -eq 0) {
+        Update-PrivacyResults "[*] No suspicious processes to kill"
+    } else {
+        Update-PrivacyResults "[+] Killed $killed processes"
+    }
+    Update-Status "Killed $killed suspicious processes"
+}
+
+function Invoke-ScanStartup {
+    Clear-PrivacyResults
+    Update-PrivacyResults "[*] Scanning startup items..."
+    Update-Status "Scanning startup items..."
+
+    $startupItems = Get-CimInstance Win32_StartupCommand -ErrorAction SilentlyContinue
+    $tasks = Get-ScheduledTask -ErrorAction SilentlyContinue | Where-Object {$_.State -ne "Disabled"}
+
+    Update-PrivacyResults "`n[STARTUP PROGRAMS]"
+    foreach ($item in $startupItems) {
+        Update-PrivacyResults "  - $($item.Name): $($item.Command)"
+    }
+
+    Update-PrivacyResults "`n[SCHEDULED TASKS] (Active)"
+    $count = 0
+    foreach ($task in $tasks) {
+        if ($task.TaskPath -notmatch "Microsoft") {
+            Update-PrivacyResults "  - $($task.TaskName)"
+            $count++
+        }
+    }
+
+    Update-PrivacyResults "`n[+] Found $($startupItems.Count) startup items, $count custom tasks"
+    Update-Status "Startup scan complete"
+}
+
+function Invoke-CleanAllLogs {
+    Update-PrivacyResults "`n[*] Cleaning all logs..."
+    Update-Status "Cleaning all logs..."
+
+    # Event Logs
+    $eventLogs = @("Application", "Security", "System", "Setup",
+        "Microsoft-Windows-TerminalServices-LocalSessionManager/Operational",
+        "Microsoft-Windows-TerminalServices-RemoteConnectionManager/Operational",
+        "Microsoft-Windows-TerminalServices-RDPClient/Operational",
+        "Microsoft-Windows-PowerShell/Operational", "Windows PowerShell")
+
+    foreach ($log in $eventLogs) {
+        try {
+            wevtutil cl $log 2>&1 | Out-Null
+            Update-PrivacyResults "[+] Cleared: $log"
+        } catch { }
+    }
+
+    # RDP Cache
+    $rdpPaths = @(
+        "$env:LOCALAPPDATA\Microsoft\Terminal Server Client\Cache",
+        "$env:APPDATA\Microsoft\Windows\Recent\AutomaticDestinations",
+        "$env:APPDATA\Microsoft\Windows\Recent\CustomDestinations"
+    )
+    foreach ($path in $rdpPaths) {
+        if (Test-Path $path) {
+            Remove-Item "$path\*" -Force -Recurse -ErrorAction SilentlyContinue
+            Update-PrivacyResults "[+] Cleared: RDP Cache"
+        }
+    }
+
+    # RDP Registry
+    Remove-Item "HKCU:\Software\Microsoft\Terminal Server Client\Default" -Recurse -Force -ErrorAction SilentlyContinue
+    Remove-Item "HKCU:\Software\Microsoft\Terminal Server Client\Servers" -Recurse -Force -ErrorAction SilentlyContinue
+    Update-PrivacyResults "[+] Cleared: RDP Registry History"
+
+    # Temp files
+    Remove-Item "$env:TEMP\*" -Force -Recurse -ErrorAction SilentlyContinue
+    Remove-Item "C:\Windows\Temp\*" -Force -Recurse -ErrorAction SilentlyContinue
+    Remove-Item "C:\Windows\Prefetch\*" -Force -Recurse -ErrorAction SilentlyContinue
+    Update-PrivacyResults "[+] Cleared: Temp files & Prefetch"
+
+    # Recent files
+    Remove-Item "$env:APPDATA\Microsoft\Windows\Recent\*" -Force -ErrorAction SilentlyContinue
+    Update-PrivacyResults "[+] Cleared: Recent files"
+
+    # Browser data
+    $browserPaths = @(
+        "$env:LOCALAPPDATA\Google\Chrome\User Data\Default\History",
+        "$env:LOCALAPPDATA\Google\Chrome\User Data\Default\Cookies",
+        "$env:LOCALAPPDATA\Microsoft\Edge\User Data\Default\History",
+        "$env:LOCALAPPDATA\Microsoft\Edge\User Data\Default\Cookies"
+    )
+    foreach ($path in $browserPaths) {
+        Remove-Item $path -Force -ErrorAction SilentlyContinue
+    }
+    Update-PrivacyResults "[+] Cleared: Browser data"
+
+    # PowerShell history
+    Remove-Item "$env:APPDATA\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt" -Force -ErrorAction SilentlyContinue
+    Update-PrivacyResults "[+] Cleared: PowerShell history"
+
+    # Flush DNS
+    ipconfig /flushdns 2>&1 | Out-Null
+    Update-PrivacyResults "[+] Flushed DNS cache"
+
+    Update-PrivacyResults "`n[+] All logs cleaned!"
+    Update-Status "All logs cleaned!"
+}
+
+function Invoke-DisableTelemetry {
+    Update-PrivacyResults "`n[*] Disabling Windows telemetry..."
+    Update-Status "Disabling telemetry..."
+
+    $telemetryKeys = @{
+        "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection" = @{ "AllowTelemetry" = 0 }
+        "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection" = @{ "AllowTelemetry" = 0 }
+    }
+
+    foreach ($path in $telemetryKeys.Keys) {
+        if (!(Test-Path $path)) { New-Item -Path $path -Force | Out-Null }
+        foreach ($name in $telemetryKeys[$path].Keys) {
+            Set-ItemProperty -Path $path -Name $name -Value $telemetryKeys[$path][$name] -Force
+        }
+    }
+
+    Update-PrivacyResults "[+] Telemetry registry keys set"
+    Update-Status "Telemetry disabled"
+}
+
+function Invoke-DisableTrackingServices {
+    Update-PrivacyResults "`n[*] Disabling tracking services..."
+    Update-Status "Disabling tracking services..."
+
+    $services = @("DiagTrack", "dmwappushservice", "WMPNetworkSvc", "RemoteRegistry")
+
+    foreach ($svc in $services) {
+        try {
+            Stop-Service -Name $svc -Force -ErrorAction SilentlyContinue
+            Set-Service -Name $svc -StartupType Disabled -ErrorAction SilentlyContinue
+            Update-PrivacyResults "[+] Disabled: $svc"
+        } catch {
+            Update-PrivacyResults "[-] Cannot disable: $svc"
+        }
+    }
+
+    Update-Status "Tracking services disabled"
+}
+
+function Invoke-BlockTelemetryDomains {
+    Update-PrivacyResults "`n[*] Blocking telemetry domains..."
+    Update-Status "Blocking telemetry domains..."
+
+    $domains = @(
+        "0.0.0.0 vortex.data.microsoft.com",
+        "0.0.0.0 vortex-win.data.microsoft.com",
+        "0.0.0.0 telecommand.telemetry.microsoft.com",
+        "0.0.0.0 oca.telemetry.microsoft.com",
+        "0.0.0.0 sqm.telemetry.microsoft.com",
+        "0.0.0.0 watson.telemetry.microsoft.com",
+        "0.0.0.0 watson.live.com",
+        "0.0.0.0 statsfe2.ws.microsoft.com"
+    )
+
+    $hostsPath = "C:\Windows\System32\drivers\etc\hosts"
+    $hostsContent = Get-Content $hostsPath -ErrorAction SilentlyContinue
+
+    $added = 0
+    foreach ($domain in $domains) {
+        if ($hostsContent -notcontains $domain) {
+            Add-Content -Path $hostsPath -Value $domain -ErrorAction SilentlyContinue
+            $added++
+        }
+    }
+
+    Update-PrivacyResults "[+] Added $added domains to hosts file"
+    ipconfig /flushdns 2>&1 | Out-Null
+    Update-PrivacyResults "[+] DNS cache flushed"
+    Update-Status "Telemetry domains blocked"
+}
+
+function Invoke-ShowConnections {
+    Clear-PrivacyResults
+    Update-PrivacyResults "[*] Active network connections:`n"
+    Update-Status "Getting active connections..."
+
+    $connections = netstat -n | Select-String "ESTABLISHED"
+    foreach ($conn in $connections) {
+        Update-PrivacyResults $conn.ToString().Trim()
+    }
+
+    Update-Status "Connections listed"
+}
+
+function Invoke-SetupAutoClean {
+    Update-PrivacyResults "`n[*] Setting up auto-clean on logout..."
+    Update-Status "Setting up auto-clean..."
+
+    $cleanScript = @'
+$logs = @("Application", "Security", "System", "Microsoft-Windows-TerminalServices-LocalSessionManager/Operational")
+foreach ($log in $logs) { wevtutil cl $log 2>&1 | Out-Null }
+Remove-Item "$env:TEMP\*" -Force -Recurse -ErrorAction SilentlyContinue
+Remove-Item "$env:APPDATA\Microsoft\Windows\Recent\*" -Force -ErrorAction SilentlyContinue
+Remove-Item "$env:APPDATA\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt" -Force -ErrorAction SilentlyContinue
+Remove-Item "$env:LOCALAPPDATA\Microsoft\Terminal Server Client\Cache\*" -Force -Recurse -ErrorAction SilentlyContinue
+ipconfig /flushdns | Out-Null
+'@
+
+    $scriptPath = "$env:USERPROFILE\d1337-autoclean.ps1"
+    Set-Content -Path $scriptPath -Value $cleanScript
+
+    try {
+        $taskAction = New-ScheduledTaskAction -Execute "PowerShell.exe" -Argument "-ExecutionPolicy Bypass -WindowStyle Hidden -File `"$scriptPath`""
+        $taskTrigger = New-ScheduledTaskTrigger -AtLogOff
+        $taskPrincipal = New-ScheduledTaskPrincipal -UserId $env:USERNAME -LogonType Interactive
+        $taskSettings = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries
+
+        Unregister-ScheduledTask -TaskName "D1337-AutoClean" -Confirm:$false -ErrorAction SilentlyContinue
+        Register-ScheduledTask -TaskName "D1337-AutoClean" -Action $taskAction -Trigger $taskTrigger -Principal $taskPrincipal -Settings $taskSettings -Force | Out-Null
+
+        Update-PrivacyResults "[+] Auto-clean task registered"
+        Update-PrivacyResults "[+] Script saved to: $scriptPath"
+        Update-Status "Auto-clean setup complete"
+    } catch {
+        Update-PrivacyResults "[-] Failed to create scheduled task"
+        Update-Status "Auto-clean setup failed"
+    }
+}
+
+function Invoke-RemoveAutoClean {
+    Update-PrivacyResults "`n[*] Removing auto-clean task..."
+    try {
+        Unregister-ScheduledTask -TaskName "D1337-AutoClean" -Confirm:$false -ErrorAction Stop
+        Update-PrivacyResults "[+] Auto-clean task removed"
+        Update-Status "Auto-clean task removed"
+    } catch {
+        Update-PrivacyResults "[-] No auto-clean task found"
+        Update-Status "No task found"
+    }
+}
+
+function Invoke-CreateCleanShortcut {
+    Update-PrivacyResults "`n[*] Creating desktop shortcut..."
+
+    $scriptPath = "$env:USERPROFILE\d1337-autoclean.ps1"
+    if (!(Test-Path $scriptPath)) {
+        Update-PrivacyResults "[-] Auto-clean script not found. Setup auto-clean first."
+        return
+    }
+
+    $shortcutPath = "$env:USERPROFILE\Desktop\D1337-CleanNow.lnk"
+    $shell = New-Object -ComObject WScript.Shell
+    $shortcut = $shell.CreateShortcut($shortcutPath)
+    $shortcut.TargetPath = "PowerShell.exe"
+    $shortcut.Arguments = "-ExecutionPolicy Bypass -WindowStyle Hidden -File `"$scriptPath`""
+    $shortcut.IconLocation = "shell32.dll,31"
+    $shortcut.Description = "D1337 Privacy Clean"
+    $shortcut.Save()
+
+    Update-PrivacyResults "[+] Shortcut created on Desktop"
+    Update-Status "Shortcut created"
+}
+
+function Invoke-FullPrivacyShield {
+    Clear-PrivacyResults
+    Update-PrivacyResults "=========================================="
+    Update-PrivacyResults "   FULL PRIVACY SHIELD ACTIVATED"
+    Update-PrivacyResults "=========================================="
+    Update-Status "Running Full Privacy Shield..."
+
+    Invoke-ScanMonitoring
+    Invoke-KillSuspicious
+    Invoke-DisableTelemetry
+    Invoke-DisableTrackingServices
+    Invoke-CleanAllLogs
+    Invoke-BlockTelemetryDomains
+    Invoke-SetupAutoClean
+
+    Update-PrivacyResults "`n=========================================="
+    Update-PrivacyResults "   FULL PRIVACY SHIELD COMPLETE!"
+    Update-PrivacyResults "=========================================="
+    Update-Status "Full Privacy Shield complete!"
+
+    [System.Windows.MessageBox]::Show("Full Privacy Shield activated!`n`nAll protections applied.", "D1337 Privacy Shield", "OK", "Information")
 }
 
 # ==================== EVENT HANDLERS ====================
@@ -1653,6 +2135,155 @@ $Window.FindName("btnResetUpdates").Add_Click({
     Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" -Name "NoAutoUpdate" -Force -ErrorAction SilentlyContinue
     Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" -Name "ExcludeWUDriversInQualityUpdate" -Force -ErrorAction SilentlyContinue
     [System.Windows.MessageBox]::Show("Update settings reset to default!", "D1337 WinUtil", "OK", "Information")
+})
+
+# ==================== RDP PRIVACY SHIELD EVENT HANDLERS ====================
+
+# Initialize Privacy Results TextBox
+$script:PrivacyResults = $Window.FindName("txtPrivacyResults")
+
+# Quick Actions
+$Window.FindName("btnFullPrivacy").Add_Click({ Invoke-FullPrivacyShield })
+$Window.FindName("btnQuickClean").Add_Click({
+    Update-Status "Quick cleaning..."
+    Remove-Item "$env:TEMP\*" -Force -Recurse -ErrorAction SilentlyContinue
+    Remove-Item "$env:APPDATA\Microsoft\Windows\Recent\*" -Force -ErrorAction SilentlyContinue
+    ipconfig /flushdns 2>&1 | Out-Null
+    Update-PrivacyResults "[+] Quick clean completed!"
+    Update-Status "Quick clean done!"
+})
+$Window.FindName("btnCleanNow").Add_Click({ Invoke-CleanAllLogs })
+
+# Monitoring Detection
+$Window.FindName("btnScanMonitoring").Add_Click({ Invoke-ScanMonitoring })
+$Window.FindName("btnKillSuspicious").Add_Click({ Invoke-KillSuspicious })
+$Window.FindName("btnScanStartup").Add_Click({ Invoke-ScanStartup })
+
+# Log Cleaner - Clean Selected
+$Window.FindName("btnCleanSelected").Add_Click({
+    Clear-PrivacyResults
+    Update-PrivacyResults "[*] Cleaning selected items..."
+    Update-Status "Cleaning selected..."
+
+    if ($Window.FindName("chkEventLogs").IsChecked) {
+        $logs = @("Application", "Security", "System", "Microsoft-Windows-TerminalServices-LocalSessionManager/Operational")
+        foreach ($log in $logs) { wevtutil cl $log 2>&1 | Out-Null }
+        Update-PrivacyResults "[+] Event logs cleared"
+    }
+
+    if ($Window.FindName("chkRDPCache").IsChecked) {
+        Remove-Item "$env:LOCALAPPDATA\Microsoft\Terminal Server Client\Cache\*" -Force -Recurse -ErrorAction SilentlyContinue
+        Remove-Item "HKCU:\Software\Microsoft\Terminal Server Client\Default" -Recurse -Force -ErrorAction SilentlyContinue
+        Remove-Item "HKCU:\Software\Microsoft\Terminal Server Client\Servers" -Recurse -Force -ErrorAction SilentlyContinue
+        Update-PrivacyResults "[+] RDP cache cleared"
+    }
+
+    if ($Window.FindName("chkBrowserData").IsChecked) {
+        $paths = @(
+            "$env:LOCALAPPDATA\Google\Chrome\User Data\Default\History",
+            "$env:LOCALAPPDATA\Google\Chrome\User Data\Default\Cookies",
+            "$env:LOCALAPPDATA\Microsoft\Edge\User Data\Default\History"
+        )
+        foreach ($p in $paths) { Remove-Item $p -Force -ErrorAction SilentlyContinue }
+        Update-PrivacyResults "[+] Browser data cleared"
+    }
+
+    if ($Window.FindName("chkTempFiles").IsChecked) {
+        Remove-Item "$env:TEMP\*" -Force -Recurse -ErrorAction SilentlyContinue
+        Remove-Item "C:\Windows\Temp\*" -Force -Recurse -ErrorAction SilentlyContinue
+        Remove-Item "C:\Windows\Prefetch\*" -Force -Recurse -ErrorAction SilentlyContinue
+        Update-PrivacyResults "[+] Temp files cleared"
+    }
+
+    if ($Window.FindName("chkRecentFiles").IsChecked) {
+        Remove-Item "$env:APPDATA\Microsoft\Windows\Recent\*" -Force -ErrorAction SilentlyContinue
+        Update-PrivacyResults "[+] Recent files cleared"
+    }
+
+    if ($Window.FindName("chkPSHistory").IsChecked) {
+        Remove-Item "$env:APPDATA\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt" -Force -ErrorAction SilentlyContinue
+        Update-PrivacyResults "[+] PowerShell history cleared"
+    }
+
+    Update-PrivacyResults "`n[+] Selected items cleaned!"
+    Update-Status "Selected items cleaned!"
+})
+
+# Disable Tracking
+$Window.FindName("btnDisableTelemetry").Add_Click({ Invoke-DisableTelemetry })
+$Window.FindName("btnDisableTracking").Add_Click({ Invoke-DisableTrackingServices })
+$Window.FindName("btnBlockTelemetryDomains").Add_Click({ Invoke-BlockTelemetryDomains })
+
+# Network Privacy
+$Window.FindName("btnFlushDNSPrivacy").Add_Click({
+    ipconfig /flushdns 2>&1 | Out-Null
+    Update-PrivacyResults "[+] DNS cache flushed!"
+    Update-Status "DNS flushed"
+})
+$Window.FindName("btnShowConnections").Add_Click({ Invoke-ShowConnections })
+$Window.FindName("btnResetNetworkPrivacy").Add_Click({
+    Update-PrivacyResults "`n[*] Resetting network stack..."
+    Update-Status "Resetting network..."
+    netsh winsock reset 2>&1 | Out-Null
+    netsh int ip reset 2>&1 | Out-Null
+    ipconfig /flushdns 2>&1 | Out-Null
+    Update-PrivacyResults "[+] Network stack reset! Restart required."
+    Update-Status "Network reset - restart required"
+    [System.Windows.MessageBox]::Show("Network stack reset!`nPlease restart your computer.", "D1337 WinUtil", "OK", "Information")
+})
+
+# Auto-Clean Setup
+$Window.FindName("btnSetupAutoClean").Add_Click({ Invoke-SetupAutoClean })
+$Window.FindName("btnRemoveAutoClean").Add_Click({ Invoke-RemoveAutoClean })
+$Window.FindName("btnCreateCleanShortcut").Add_Click({ Invoke-CreateCleanShortcut })
+
+# Encrypted Workspace
+$Window.FindName("btnInstallVeraCrypt").Add_Click({
+    Update-PrivacyResults "`n[*] Installing VeraCrypt..."
+    Update-Status "Installing VeraCrypt..."
+    Install-Winget
+    Start-Process winget -ArgumentList "install --id IDRIX.VeraCrypt --accept-source-agreements --accept-package-agreements -h" -Wait -NoNewWindow
+    Update-PrivacyResults "[+] VeraCrypt installed!"
+    Update-Status "VeraCrypt installed"
+})
+
+$Window.FindName("btnSetupEncrypted").Add_Click({
+    Update-PrivacyResults "`n[*] Setting up encrypted workspace..."
+
+    $workDir = "$env:USERPROFILE\SecureWorkspace"
+    if (!(Test-Path $workDir)) {
+        New-Item -ItemType Directory -Path $workDir -Force | Out-Null
+    }
+
+    $mountScript = @'
+@echo off
+echo ================================
+echo  D1337 Secure Workspace
+echo ================================
+echo.
+set /p PASSWORD="Enter password: "
+"C:\Program Files\VeraCrypt\VeraCrypt.exe" /q /v "%USERPROFILE%\SecureWorkspace\vault.hc" /l Z /p %PASSWORD%
+if %ERRORLEVEL% EQU 0 (
+    echo [+] Mounted to Z:
+    explorer Z:\
+) else (
+    echo [-] Mount failed
+)
+pause
+'@
+
+    Set-Content -Path "$workDir\MountSecure.bat" -Value $mountScript
+
+    Update-PrivacyResults "[+] Workspace folder: $workDir"
+    Update-PrivacyResults "[+] Created MountSecure.bat"
+    Update-PrivacyResults "`n[*] To create vault:"
+    Update-PrivacyResults "    1. Open VeraCrypt"
+    Update-PrivacyResults "    2. Create Volume > Encrypted file container"
+    Update-PrivacyResults "    3. Save as: $workDir\vault.hc"
+    Update-PrivacyResults "    4. Use MountSecure.bat to mount"
+
+    Update-Status "Encrypted workspace setup complete"
+    Start-Process explorer $workDir
 })
 
 # About Tab

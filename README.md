@@ -73,6 +73,21 @@ One-click install via winget:
 - Disable Search Indexing
 - Network optimizations (Nagle, Throttling)
 
+### 🛡️ RDP Privacy Shield (NEW!)
+Ultimate privacy protection untuk user RDP:
+
+| Feature | Description |
+|---------|-------------|
+| **Full Privacy Shield** | Jalankan semua proteksi sekaligus |
+| **Scan for Spyware** | Detect keylogger, monitoring software, remote tools |
+| **Kill Suspicious Processes** | Terminate TeamViewer, AnyDesk, VNC, dll |
+| **Clean All Logs** | Hapus Event logs, RDP cache, browser data, temp files |
+| **Disable Telemetry** | Matikan Windows telemetry & tracking services |
+| **Block Telemetry Domains** | Block Microsoft telemetry via hosts file |
+| **Network Privacy** | Show connections, flush DNS, reset network |
+| **Auto-Clean on Logout** | Scheduled task untuk clean otomatis saat logout |
+| **Encrypted Workspace** | Setup VeraCrypt encrypted container |
+
 ## Screenshot
 
 ```
