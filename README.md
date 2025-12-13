@@ -20,18 +20,30 @@
 
 ## Quick Start
 
-### One-Line Install
+### One-Line Install (Recommended)
 ```powershell
+irm http://tools.d1337.ai/get | iex
+```
+Akan muncul pilihan:
+- **[1] TUI Mode** - Terminal Interface (lightweight)
+- **[2] GUI Mode** - Window Interface (visual)
+
+### Direct Links
+```powershell
+# TUI Version (Terminal)
+irm https://raw.githubusercontent.com/Boshe99/d1337-installer/main/D1337-TUI.ps1 | iex
+
+# GUI Version (Window)
 irm https://raw.githubusercontent.com/Boshe99/d1337-installer/main/D1337-WinUtil.ps1 | iex
 ```
 
 ### Manual Download
 ```powershell
 # Download
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/Boshe99/d1337-installer/main/D1337-WinUtil.ps1" -OutFile "D1337-WinUtil.ps1"
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/Boshe99/d1337-installer/main/D1337-TUI.ps1" -OutFile "D1337-TUI.ps1"
 
 # Run as Admin
-powershell -ExecutionPolicy Bypass -File "D1337-WinUtil.ps1"
+powershell -ExecutionPolicy Bypass -File "D1337-TUI.ps1"
 ```
 
 ## Features
@@ -88,33 +100,42 @@ Ultimate privacy protection untuk user RDP:
 | **Auto-Clean on Logout** | Scheduled task untuk clean otomatis saat logout |
 | **Encrypted Workspace** | Setup VeraCrypt encrypted container |
 
-## Screenshot
+## TUI vs GUI
+
+| Feature | TUI | GUI |
+|---------|-----|-----|
+| Interface | Terminal | Window |
+| Load Time | Instant | 2-3 sec |
+| Dependencies | None | WPF/.NET |
+| Works over SSH | ✅ | ❌ |
+| Resource Usage | Low | Medium |
+| Visual | Hacker style | Modern |
+
+## Screenshot - TUI Mode
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│            ██████╗  ██╗██████╗ ██████╗ ███████╗             │
-│            ██╔══██╗███║╚════██╗╚════██╗╚════██║             │
-│            ██║  ██║╚██║ █████╔╝ █████╔╝    ██╔╝             │
-│            ██║  ██║ ██║ ╚═══██╗ ╚═══██╗   ██╔╝              │
-│            ██████╔╝ ██║██████╔╝██████╔╝   ██║               │
-│            ╚═════╝  ╚═╝╚═════╝ ╚═════╝    ╚═╝               │
-│                    W I N U T I L                            │
-├─────────────────────────────────────────────────────────────┤
-│  [DEBLOAT] [INSTALL TOOLS] [PRIVACY] [PERFORMANCE] [ABOUT] │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  [WINDOWS DEBLOATER]                                        │
-│                                                             │
-│  ☐ Remove Cortana                                           │
-│  ☐ Remove Xbox Apps                                         │
-│  ☐ Remove OneDrive                                          │
-│  ☐ Remove Microsoft Teams                                   │
-│                                                             │
-│                   [EXECUTE DEBLOAT]                         │
-│                                                             │
-├─────────────────────────────────────────────────────────────┤
-│  [STATUS] Ready                         D1337 | MoneyHunter │
-└─────────────────────────────────────────────────────────────┘
+  ██████╗  ██╗██████╗ ██████╗ ███████╗
+  ██╔══██╗███║╚════██╗╚════██╗╚════██║
+  ██║  ██║╚██║ █████╔╝ █████╔╝    ██╔╝
+  ██║  ██║ ██║ ╚═══██╗ ╚═══██╗   ██╔╝
+  ██████╔╝ ██║██████╔╝██████╔╝   ██║
+  ╚═════╝  ╚═╝╚═════╝ ╚═════╝    ╚═╝
+
+  W I N U T I L  TUI v2.1
+  by MoneyHunter Community
+
+  ══════════════════════════════════════════════════
+
+    [1] Fresh RDP Setup       [6] RDP Privacy Shield
+    [2] Install Tools         [7] System Config
+    [3] Debloat Windows       [8] Windows Updates
+    [4] Privacy Tweaks        [9] About
+    [5] Performance Boost     [0] Exit
+
+  ──────────────────────────────────────────────────
+  System: Windows 11 Pro | RAM: 16GB | User: Admin
+
+  Select [0-9]: _
 ```
 
 ## Requirements
